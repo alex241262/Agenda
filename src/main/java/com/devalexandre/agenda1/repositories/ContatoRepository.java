@@ -1,5 +1,10 @@
 package com.devalexandre.agenda1.repositories;
 
-public class ContatoRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.devalexandre.agenda1.entities.Contato;
+
+public interface ContatoRepository extends JpaRepository<Contato, Long>{
+
+	
 }
