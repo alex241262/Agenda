@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ public class ContatoController {
 	private ContatoRepository contatoRepository;
 	
 	//trazer listas de todos os contatos
+	@GetMapping
 	public List<Contato> findAll(){
 		List<Contato> result = contatoRepository.findAll();
 		return result;
@@ -44,5 +46,16 @@ public class ContatoController {
 			public Contato delete(@PathVariable Long id) {			 
 				contatoRepository.deleteById(id);
 				return null;
+			}
+			
+			@PutMapping(value = "/{id})")
+					public Contato update(@PathVariable("id") long id, @RequestBody Contato contato) {
+				return contatoRepository.findById(id).map(record ->{
+					record.setNome(contato.getNome());
+					record.setFone(contato.getFone());
+					record.setCelular(contato.getCelular());
+					Contato update = contatoRepository.save(record);
+					//return Contato.ok().body(updated);
+				}).orElse(Contato.notFound());
 			}
 }
